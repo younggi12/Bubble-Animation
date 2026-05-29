@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오픈웨더 날씨 API</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #e8f4fd;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #container {
+            position: relative;
+            display: inline-block;
+        }
+
+        #container img.bg {
+            width: 1500px;
+            height: 800px;
+            object-fit: cover;
+            border-radius: 20px;
+            display: block;
+        }
+
+        #wrap {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .main {
+            width: 350px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 16px;
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: black;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        .city-label{
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .con {
+            width: 80px;
+            height: 80px;
+        }
+
+        .dis {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .wi {
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <h2>오늘의 날씨</h2>
+    <div id="container">
+        <img class="bg" src="./ansan.jpg" alt="이미지" />
+        <div id="wrap">
+            <div class="main" id="main0">
+                <div class="city-label">안산</div>
+                <img class="con" alt="날씨아이콘" />
+                <div class="dis"></div>
+                <div class="wi"></div>
+            </div>
+            <div class="main" id="main1">
+                <div class="city-label">수원</div>
+                <img class="con" alt="날씨아이콘" />
+                <div class="dis"></div>
+                <div class="wi"></div>
+            </div>
+            <div class="main" id="main2">
+                <div class="city-label">강원</div>
+                <img class="con" alt="날씨아이콘" />
+                <div class="dis"></div>
+                <div class="wi"></div>
+            </div>
+            <div class="main" id="main3">
+                <div class="city-label">제주</div>
+                <img class="con" alt="날씨아이콘" />
+                <div class="dis"></div>
+                <div class="wi"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = '89d6c114ec7bbbfd4be0ebc38e323833';
+        const cities = ['Ansan', 'Seoul', 'Busan', 'Jeju'];
+
+        cities.forEach(function(cityname, i) {
+            let main = document.querySelector('#main' + i);
+            let dis = main.querySelector('.dis');
+            let con = main.querySelector('.con');
+            let wi  = main.querySelector('.wi');
+
+            async function getWeather() {
+                let res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${API_KEY}&units=metric&lang=kr`);
+                let data = await res.json();
+
+                dis.innerHTML = "오늘의 날씨 : " + data.main.temp + "Cº";
+                let icon = data.weather[0].icon;
+                let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+                con.setAttribute('src', iconUrl);
+                wi.innerHTML = data.wind.speed;
+
+                console.log(data);
+            }
+            getWeather();
+        });
+    </script>
+</body>
+</html>
