@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        header{
+            width: 100%;
+            height: 70px;
+
+            position: fixed;
+            left:0; top:0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+
+            transition: all 0.4s;
+            /* backdrop-filter: blur(20px); */
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        header.on{
+            height: 60px;
+            backdrop-filter: blur(20px);
+            background-color: blue;
+        }
+        section{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 70px;
+        }
+        .sec1{ background-color:  skyblue;}
+        .sec2{ background-color:  orange;}
+        .sec3{ background-color:  pink;}
+
+        .Topbtn{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+
+            background-color: black;
+            color: white;
+
+            position: fixed;
+            right: 50px;
+            bottom: 70px;
+
+            display: none;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+<body>
+    <header> logo & navi </header>
+    <section class="sec1">
+        첫번째 화면입니다
+    </section>
+    <section class="sec2">
+        두번째 화면입니다
+    </section>
+    <section class="sec3">
+        세번째 화면입니다
+    </section>
+
+    <div class="Topbtn">Top</div>
+
+    <script>
+        // 스크롤 이벤트
+        $(window).on("scroll", function(){
+            let scrTop = $(window).scrollTop();
+            console.log(scrTop)
+            
+            if(scrTop > 80){
+                $("header").addClass("on")
+                $(".Topbtn").fadeIn()
+            }else{
+                $("header").removeClass("on")
+                $(".Topbtn").fadeOut()
+            }
+        })
+
+        //  클릭 이벤트
+        $(".Topbtn").on("click", function(){
+                $("html, body").animate({
+                    scrollTop : 0
+                }, 500)
+            })
+    </script>
+</body>
+</html>

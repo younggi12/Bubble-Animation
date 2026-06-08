@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fmk</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="./reset.css">
+
+    <style>
+        /* 헤더 */
+        header {
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            left: 0; top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            transition: all 0.4s;
+        }
+
+        header.on { 
+           background-color: rgba(255,255,255,0.5);
+           /* backdrop-filter: blur(1px);  */
+           color: black;
+        }
+
+        .logo { 
+            font-size: 45px; 
+            font-weight: bold; 
+        }
+
+        nav { 
+            display: flex; 
+            gap: 40px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        nav a { 
+            color: black; 
+            text-decoration: none; 
+            font-size: 18px; 
+        }
+
+        /* 히어로 */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+
+        .hero h2 { font-size: 70px; font-weight: bold; margin-bottom: 20px; }
+
+        .hero p { font-size: 14px; color: #666; line-height: 1.8; }
+        
+
+        /* 탭 메뉴 */
+        .menu {
+            display: flex;
+            gap: 30px;
+            padding: 30px 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        .menu button { border: none; background: none; cursor: pointer; font-size: 16px; color: #aaa; }
+
+        .menu button.on { color: black; font-weight: bold; }
+
+        /* 상품 카드 */
+        .content { display: none; }
+
+        .content.on {
+            display: flex;
+            gap: 1px;
+            background-color: #eee;
+            border-top: 1px solid #eee;
+        }
+
+        .card { width: 33.33%; background-color: white; }
+
+        .card img { width: 100%; height: 800px; object-fit: cover; }
+
+        .card-info { padding: 20px 15px 30px; }
+
+        .card-title { font-size: 27px; font-weight: bold; margin-bottom: 10px; }
+
+        .card-desc { font-size: 22px; color: black; margin-bottom: 15px; }
+
+        .card-price { display: flex; gap: 8px; align-items: center; font-size: 18px; }
+
+        .per { color: #888; }
+
+        .sale { font-weight: bold; }
+
+        .origin { color: #aaa; text-decoration: line-through; font-size: 18px; }
+
+        /* 푸터 */
+        footer {
+            border-top: 1px solid #ddd;
+            margin-top: 100px;
+            padding: 80px 40px 40px;
+        }
+       .footer-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+            padding-bottom: 60px;       
+            border-bottom: 1px solid #eee; 
+        }
+
+        .footer-slogan { font-size: 20px; font-weight: bold; line-height: 1.5; }
+
+        .footer-info { display: flex; gap: 60px; font-size: 13px; color: #555; line-height: 1.8; }
+
+        .footer-title { font-weight: bold; color: black; margin-bottom: 8px; }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .footer-logo { font-size: 28px; font-weight: bold; color: black; }
+
+        .Topbtn{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* font-weight: bold; */
+            font-size: 20px;
+
+            background-color: black;
+            color: white;
+
+            position: fixed;
+            right: 50px;
+            bottom: 70px;
+
+            display: none;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">fmk</div>
+        <nav>
+            <a href="#">About</a>
+            <a href="#">Products</a>
+            <a href="#">Event</a>
+            <a href="#">Community</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Product List</h2>
+        <p>Care that performs beyond routine.<br>Precise and result-driven. Professional, made personal.</p>
+    </div>
+
+    <div class="menu">
+        <button class="on">Rejuvenating</button>
+        <button>Brightening</button>
+        <button>Set</button>
+    </div>
+
+    <div class="content on">
+        <div class="card">
+            <img src="./iMG/fmk6.png"/>
+        </div>
+        
+        <div class="card">
+            <img src="./iMG/fmk5.png"/>
+            <div class="card-info">
+                <p class="card-title">[1+1] fmk Rejuvenating PDRN Kit</p>
+                <p class="card-desc">4주 집중 탄력이 진하게 차오르는 PDRN 부스팅 케어</p>
+                <div class="card-price">
+                    <span class="per">5%</span>
+                    <span class="sale">49,400원</span>
+                    <span class="origin">52,000원</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./iMG/fmk5.png"/>
+            <div class="card-info">
+                <p class="card-title">fmk Rejuvenating Kit</p>
+                <p class="card-desc">탄력이 진하게 차오르는 부스팅 케어</p>
+                <div class="card-price">
+                    <span class="per">5%</span>
+                    <span class="sale">19,900원</span>
+                    <span class="origin">21,000원</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="card">
+            <img src="./iMG/fmk4.png"/>
+        </div>
+
+        <div class="card">
+            <img src="./iMG/fmk3.png"/>
+            <div class="card-info">
+                <p class="card-title">fmk Brightening Kit A</p>
+                <p class="card-desc">밝고 투명한 피부를 위한 브라이트닝 케어</p>
+                <div class="card-price">
+                    <span class="per">5%</span>
+                    <span class="sale">32,000원</span>
+                    <span class="origin">35,000원</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./iMG/fmk3.png"/>
+            <div class="card-info">
+                <p class="card-title">fmk Brightening Kit C</p>
+                <p class="card-desc">밝고 투명한 피부를 위한 브라이트닝 케어</p>
+                <div class="card-price">
+                    <span class="per">5%</span>
+                    <span class="sale">22,000원</span>
+                    <span class="origin">24,000원</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="card">
+            <img src="./iMG/fmk2.png"/>
+        </div>
+
+        <div class="card">
+            <img src="./iMG/fmk1.png"/>
+            <div class="card-info">
+                <p class="card-title">fmk Set B</p>
+                <p class="card-desc">리쥬브네이팅 + 브라이트닝 풀 세트</p>
+                <div class="card-price">
+                    <span class="per">10%</span>
+                    <span class="sale">75,000원</span>
+                    <span class="origin">85,000원</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <p class="footer-slogan">Where advanced results become<br>routine</p>
+            <div class="footer-info">
+                <div>
+                    <p class="footer-title">COMPANY</p>
+                    <p>에이팩시티 17층 경기도 화성시 동탄순환대로 823</p>
+                    <p>상호명 (주)지에프씨생명과학</p>
+                    <p>대표자명 강희철</p>
+                </div>
+                <div>
+                    <p class="footer-title">CS CENTER</p>
+                    <p>031-5183-5510</p>
+                    <p>평일 월-금 : AM 10:00 ~ PM 17:00</p>
+                </div>
+                <div>
+                    <p class="footer-title">INFORMATION</p>
+                    <p>사업자 등록번호 : 211-87-16248</p>
+                    <p>Hosting by Cafe24</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-logo">fmk</div>
+            <p>COPYRIGHT © 2026 ALL RIGHTS RESERVED</p>
+        </div>
+    </footer>
+
+    <div class="Topbtn">↑</div>
+
+    <script>
+        // 헤더 스크롤
+        $(window).on("scroll", function(){
+            if($(window).scrollTop() > 80){
+                $("header").addClass("on");
+                $(".Topbtn").fadeIn();
+            } else {
+                $("header").removeClass("on");
+                $(".Topbtn").fadeOut();
+            }
+        });
+
+        // 탭 메뉴
+        $(".menu button").on("click", function(){
+            let idx = $(this).index();
+            $(".menu button").removeClass("on");
+            $(this).addClass("on");
+            $(".content").removeClass("on");
+            $(".content").eq(idx).addClass("on");
+        });
+
+        //  클릭 이벤트
+        $(".Topbtn").on("click", function(){
+                $("html, body").animate({
+                    scrollTop : 0
+                }, 50)
+            })
+    </script>
+</body>
+</html>

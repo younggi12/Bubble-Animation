@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas</title>
+</head>
+<body>
+    <!-- 
+    캔버스
+    :: html 태그의 일종, 그림을 그릴수 있는 빈공간을 만드는 태그
+    :: js로 그림을 그려야 함 
+    :: 자주 사용하는 효과 
+        ;; 물방울 효과, 눈 내리는 효과, 차트 그리기, 게임구현
+        ;; 그림판 만들기, 화면보호기(물방울들이 반사), 벽돌게임 
+    :: getcontext() 메서드 -> 그림 그릴 도구를 가져오는 명령어 
+    :: 도형그리기, 이미지 클리핑, 그라데이션,
+        나만의 드로잉 앱 만들기, 화면보호기(물방울 움직이기).
+        벽돌게임
+    -->
+    <canvas width="500" height="400"></canvas>
+
+    <script>
+        let canvas = document.querySelector("canvas")
+        let ctx = canvas.getContext("2d")
+
+        ctx.fillStyle = "black"
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        // ctx.font = "italic bold 60px Aril" // bold : 진하게
+        // ctx.fillStyle = "yellow" // 텍스트 색
+        // ctx.strokeStyle = "green" // 선 색
+        // ctx.lineWidth = 3 // 선 굵기
+
+        // ctx.fillText("Javascript", 150, 100) // ("text", x, y)
+        // ctx.strokeText("Javascript", 150, 100) 
+
+
+        // ctx.fillStyle = "skyblue" // 텍스트 색
+        // ctx.strokeStyle = "blue" // 선 색
+        // ctx.font = "italic bold 70px sans-serif" // italic : 기울이기
+        // ctx.lineWidth = 4 // 선 굵기
+
+        // ctx.fillText("Javascript", 150, 200) 
+        // ctx.strokeText("Javascript", 150, 200) 
+
+        // ************* 사각형 그리기
+        // ctx.fillStyle = "pink"
+        // ctx.fillRect(150, 100, 100, 50) // Rect : 사각형 (x, y, w, h)
+        // ctx.clearRect(160, 100, 50, 30)
+
+        // ctx.beginPath() // 새롭게 경로방식을 만듬. 색상등을 다시 정함 
+        // ctx.strokeStyle = "red"
+        // ctx.lineWidth = 4
+        // ctx.strokeRect(150, 200, 100, 50)
+
+        // ************* 모서리가 둥근 사각형 그리기 
+        // ctx.beginPath()
+        // ctx.fillStyle = "skyblue"
+        // ctx.roundRect(100, 100, 150, 50, 15) // 둥근사각형
+        // ctx.fill() // 마지막에 채워
+
+        // ************* 빨간색 테두리가 있는 둥근 사각형
+        // ctx.beginPath()
+        // ctx.strokeStyle = "red"
+        // ctx.roundRect(100, 100, 150, 50, 20)
+        // ctx.stroke()
+
+        // ************* 면, 테투리가 있는 둥근 사각형
+        //  ctx.beginPath()
+        //  ctx.fillStyle = "yellow"
+        //  ctx.strokeStyle = "green"
+        //  ctx.lineWidth = 6
+        //  ctx.roundRect(100, 100, 150, 50, 15)
+        //  ctx.fill()
+        //  ctx.stroke()
+
+        // ************* 원 그리기 
+            // ctx.beginPath()
+            // ctx.strokeStyle = "hotpink"
+            // ctx.lineWidth = 4
+            // ctx.arc(150, 150, 50, 0, Math.PI * 2) 
+            // // arc 원 ( x, y, 반지름, 출발 각도, 종료 각도 :: Math.PI)
+            // ctx.stroke()
+
+        // ************* 와이파이
+            // ctx.beginPath()
+            // ctx.strokeStyle = "white"
+            // ctx.lineWidth = 8
+            // ctx.lineCap = "round" // 끝에 둥글게
+            // let cx = 100
+            // let cy = 150 
+            // let start = Math.PI * 1.2
+            // let end = Math.PI * 1.75
+
+            // // 작은 호 만들기
+            // ctx.beginPath()
+            // ctx.arc( cx, cy, 35, start, end)
+            // ctx.stroke()
+
+            // // 중간 호
+            // ctx.beginPath()
+            // ctx.arc( cx, cy, 55, start, end)
+            // ctx.stroke()
+
+            // // 큰 호 
+            // ctx.beginPath()
+            // ctx.arc( cx, cy, 75, start, end)
+            // ctx.stroke()
+
+            // // 작은 원 
+            // ctx.beginPath()
+            // ctx.fillStyle = "white"
+            // ctx.arc( cx, cy, 8, 0, Math.PI * 2)
+            // ctx.fill()
+
+        // ************* 캔버스 이미지
+            let img = new Image();
+            img.onload = function(){
+                ctx.drawImage(img, 0, 0, 150, 150, 50, 100, 150, 250)
+            }
+            img.src = 'img/park2.jpg'
+            //drawimage(img, sx, sy, sw, sh, dx, dy, dw, dh)
+            // sx, sy : 원래 이미지에서 자를 영역을 지엉 가로, 세로 위치지정
+            // sw, sh : 원래 이미지 잘라낼 너비와 높이 
+            // dx, dy : 캔버스에서 왼쪽위 모서리 위치부터 얼마나 떨어져서 이미지를 그릴지 표시 
+            // dw, dh : 이미지 크기  :: 캔버스 크기로 하고 싶다면 --> canvas.width, canvas.height 
+
+    </script>
+</body>
+</html>
