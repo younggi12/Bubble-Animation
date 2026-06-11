@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./reset.css">
+    <title>기아</title>
+
+    <style>
+
+        /* -----------------로고, 서브 -------------------------- */
+        header{
+            width: 100%;
+            height: 70px;
+            left: 0; top: 0;
+            background-color: white;
+            z-index: 100;
+        }
+        
+        .logo{
+            font-size: 45px;
+            font-weight: bold;
+            position: absolute;
+            left: 50px;
+            top: 10px;
+        }
+
+        .nav{
+            font-size: 17px;
+            font-weight: bold;
+            display: flex;
+            position: absolute;
+            left: 720px;
+            top: 29px;
+            gap: 32px;
+        }
+
+        /* ---------------------메인 슬라이더--------------------- */
+        .wrap{
+            width: 1850px;
+            height: 850px;
+            margin: 10px auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 28px;
+        }
+
+        /* 슬라이드 목록을 가로로 나열 */
+        .slider{
+            display: flex;
+            height: 100%;
+        }
+
+        /* 개별 슬라이드 : flex-shrink:0 으로 너비 고정 */
+        .slide{
+            width: 1850px;
+            height: 850px;
+            flex-shrink: 0;
+        }
+
+        /* 영상이 슬라이드 영역을 꽉 채우도록 */
+        .slide video{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ---------------------화살표 버튼--------------------- */
+        .arrow{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        /* 이전 버튼 : 슬라이더 왼쪽 */
+        .prev{
+            left: 30px; 
+            background-color: rgba(255, 255, 255, 0.2); 
+            color: white; 
+            font-size: 25px;
+        }
+
+        /* 다음 버튼 : 슬라이더 오른쪽 */
+        .next{
+            right: 30px; 
+            background-color: rgba(255, 255, 255, 0.2); 
+            color: white; 
+            font-size: 25px;
+        }
+
+        /* ---------------------도트 네비게이션--------------------- */
+
+        /* 도트 묶음 : 슬라이더 하단 가운데 배치 */
+        .dotwrap{
+            display: flex;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            gap: 8px;
+        }
+
+        /* 기본 도트 : 비활성 상태 */
+        .dot{
+            width: 100px;
+            height: 3px;
+            background-color: gray;
+            opacity: 0.5;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        /* 활성 도트 : 현재 슬라이드에 해당하는 도트 */
+        .dot.on{
+            opacity: 1;
+            transform: scale(1.15);
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로고 서브 -->
+    <header>
+        <div class="logo">KIA</div>
+        <div class="nav">
+            <a href="#">Brand</a>
+            <a href="#">Design</a>
+            <a href="#">Vehicle</a>
+            <a href="#">Innovation</a>
+            <a href="#">Newsroom</a>
+        </div>
+    </header>
+
+    <div class="wrap">
+        <div class="slider">
+
+            <div class="slide">
+                <video autoplay muted loop playsinline>
+                    <source src="./mp4/gia1.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="slide">
+                <video autoplay muted loop playsinline>
+                    <source src="./mp4/gia2.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="slide">
+                <video autoplay muted loop playsinline>
+                    <source src="./mp4/gia3.mp4" type="video/mp4">
+                </video>
+            </div>
+
+        </div>
+        <button class="arrow prev">&lt;</button>
+        <button class="arrow next">&gt;</button>
+
+        <div class="dotwrap">
+            <div class="dot on"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <script>
+        
+        $(function(){
+            const slider = $(".slider")
+            const dots = $(".dot")
+
+            let swidth = 1850
+            let scount = $(".slide").length
+            let index = 1
+            let slideInterval;
+            let isClick = false
+
+            // 제일 마지막에 첫번째 슬라이드 복제 (무한 루프용)
+            slider.append($(".slide").eq(0).clone())
+
+            // 제일 처음에 마지막 슬라이드 복제 (무한 루프용)
+            slider.prepend($(".slide").eq(scount - 1).clone())
+
+            // 초기 위치를 index 1번 (진짜 첫번째 슬라이드)으로 설정
+            slider.css("marginLeft", -swidth * index)
+
+            // 초기 도트 : 첫번째 도트에 on 클래스 부여
+            dots.removeClass("on")
+            dots.eq(0).addClass("on")
+
+            // 도트 업데이트 함수 : 현재 index에 맞는 도트 활성화
+            function updateDots(){
+                dots.removeClass("on")
+                let dotIndex = index - 1
+
+                // 복제 슬라이드 구간일 때 도트 보정
+                if(dotIndex < 0) dotIndex = scount - 1
+                if(dotIndex >= scount) dotIndex = 0
+
+                dots.eq(dotIndex).addClass("on")
+            }
+
+            // 슬라이드 이동 함수
+            function moveSlide(){
+                
+                updateDots()
+
+                slider.stop(true, true).animate({
+                    marginLeft: -swidth * index
+                }, 500, function(){
+
+                    // 마지막 복제 슬라이드 도달 시 → 진짜 첫번째로 순간이동
+                    if(index >= scount + 1){
+                        index = 1
+                        slider.css("marginLeft", -swidth * index)
+                        updateDots()
+                    }
+
+                    // 첫번째 복제 슬라이드 도달 시 → 진짜 마지막으로 순간이동
+                    if(index === 0){
+                        index = scount
+                        slider.css("marginLeft", -swidth * index)
+                        updateDots()
+                    }
+
+                    isClick = false
+                })
+            }
+
+            // 자동 재생 함수 : 3초마다 다음 슬라이드로 이동
+            function autoplay(){
+                slideInterval = setInterval(function(){
+                    index++
+                    moveSlide()
+                }, 3000)
+            }
+
+            // next 버튼 클릭 : 자동재생 초기화 후 다음 슬라이드로 이동
+            $(".next").on("click", function(){
+                clearInterval(slideInterval)
+                index++
+                moveSlide()
+                autoplay()
+            })
+
+            // prev 버튼 클릭 : 자동재생 초기화 후 이전 슬라이드로 이동
+            $(".prev").on("click", function(){
+                clearInterval(slideInterval)
+                index--
+                moveSlide()
+                autoplay()
+            })
+
+            // 도트 클릭 : 해당 슬라이드로 직접 이동 (dot index는 0부터라 +1)
+            dots.on("click", function(){
+                clearInterval(slideInterval)
+                index = $(this).index() + 1
+                moveSlide()
+                autoplay()
+            })
+
+            // 자동 재생 시작
+            autoplay()
+        })
+    </script>
+</body>
+</html>

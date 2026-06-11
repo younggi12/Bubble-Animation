@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캔버스 애니메이션</title>
+    <style>
+        canvas{
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 기본 개념
+        그림 -> 지움 -> 좌표를 바꿈 -> 다시 그림 
+        위 작업이 매우 빠르게 반복(requestAnimationFrame)
+    -->
+        <canvas width="800" height="500"></canvas>
+
+        <script>
+            const canvas = document.querySelector("canvas")
+            const ctx = canvas.getContext("2d")
+
+            let x = 100 // x좌표
+            let y = 100 // y좌표
+            let speed = 3 // 이동포인트
+            
+            function animate(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                x += speed
+                ctx.beginPath()
+                ctx.arc(x, y, 70, 0, Math.PI*2)
+                ctx.fillStyle = "skyblue"
+                ctx.fill()
+                // 반복 
+                requestAnimationFrame(animate)
+            }
+            // animate()
+
+            function ani(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                y += speed
+                x += speed
+                ctx.beginPath()
+                ctx.arc(x, y, 40, 0, Math.PI*2)
+                ctx.fillStyle = "skyblue"
+                ctx.fill()
+                requestAnimationFrame(ani)
+            }
+            // ani()
+
+            function ani2(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                x += speed
+
+                // 오른쪽 벽에 충돌 
+                if(x + 40 >= canvas.width){
+                    speed = -speed
+                }
+
+                // 왼쪽 벽 충돌 
+                if(x - 40 < 0){
+                    speed = -speed // -(-3) = 3 
+                }
+                ctx.beginPath()
+                ctx.arc(x, y, 40, 0, Math.PI*2)
+                ctx.fillStyle = "skyblue"
+                ctx.fill()
+                requestAnimationFrame(ani2)
+            }
+            // ani2()
+
+            function ani3(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                y += speed
+
+                // 위에 충돌 
+                if(y + 40 >= canvas.height){
+                    speed = -speed
+                }
+
+                // 아래 충돌 
+                if(y - 40 < 0){
+                    speed = -speed // -(-3) = 3 
+                }
+                ctx.beginPath()
+                ctx.arc(x, y, 40, 0, Math.PI*2)
+                ctx.fillStyle = "skyblue"
+                ctx.fill()
+                requestAnimationFrame(ani3)
+            }
+            ani3()
+            
+        </script>
+</body>
+</html>
